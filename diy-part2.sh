@@ -24,7 +24,7 @@ git clone https://github.com/sirpdboy/luci-app-netdata package/luci-app-netdata
 
 #svn co https://github.com/sbwml/openwrt_pkgs/trunk/luci-app-gowebdav package/luci-app-gowebdav
 #svn co https://github.com/sbwml/openwrt_pkgs/trunk/gowebdav package/gowebdav
-#git clone https://github.com/vernesong/OpenClash.git -b master --single-branch luci-app-openclash
+# git clone https://github.com/vernesong/OpenClash.git -b master --single-branch luci-app-openclash
 function merge_package() {
         # 参数1是分支名,参数2是库地址,参数3是所有文件下载到指定路径。
         # 同一个仓库下载多个文件夹直接在后面跟文件名或路径，空格分开。
@@ -50,7 +50,7 @@ function merge_package() {
         }
 #        merge_package master https://github.com/sbwml/openwrt_pkgs package/openwrt-packages gowebdav luci-app-gowebdav 
         merge_package master https://github.com/messense/aliyundrive-webdav package/openwrt-packages aliyundrive-webdav luci-app-aliyundrive-webdav 
-        merge_package master https://github.com/vernesong/OpenClash package/openwrt-packages luci-app-openclash
+#        merge_package master https://github.com/vernesong/OpenClash package/openwrt-packages luci-app-openclash
 # 编译 po2lmo (如果有po2lmo可跳过)
 pushd package/custom/luci-app-openclash/tools/po2lmo
 make && sudo make install
