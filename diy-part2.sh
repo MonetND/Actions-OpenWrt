@@ -10,7 +10,6 @@
 # See /LICENSE for more information.
 #
 
-rm -rf feeds/luci/applications/luci-app-netdata
 rm -rf luci/applications/luci-app-argon-config
 rm -rf feeds/applications/luci-theme-argon
 rm -rf luci/applications/luci-theme-argon
@@ -19,8 +18,10 @@ git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git luci-theme-
 git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git luci-app-argon-config
 rm -rf feeds/luci/applications/luci-app-gowebdav
 rm -rf feeds/packages/net/gowebdav
-git clone https://github.com/tty228/luci-app-serverchan.git package/uci-app-serverchan
-git clone https://github.com/sirpdboy/luci-app-netdata package/luci-app-netdata
+git clone --depth=1 https://github.com/tty228/luci-app-serverchan.git package/luci-app-serverchan
+rm -rf feeds/luci/applications/luci-app-netdata
+git clone --depth=1 https://github.com/sirpdboy/luci-app-netdata package/luci-app-netdata
+ln -s package/luci-app-netdata/po/zh-cn package/luci-app-netdata/po/zh_Hans
 
 #svn co https://github.com/sbwml/openwrt_pkgs/trunk/luci-app-gowebdav package/luci-app-gowebdav
 #svn co https://github.com/sbwml/openwrt_pkgs/trunk/gowebdav package/gowebdav
@@ -50,18 +51,22 @@ function merge_package() {
         }
 #        merge_package master https://github.com/sbwml/openwrt_pkgs package/openwrt-packages gowebdav luci-app-gowebdav 
         merge_package master https://github.com/messense/aliyundrive-webdav package/openwrt-packages aliyundrive-webdav luci-app-aliyundrive-webdav 
-#        merge_package master https://github.com/vernesong/OpenClash package/openwrt-packages luci-app-openclash
+
+git clone --depth=1 https://github.com/vernesong/OpenClash.git
+cp -rf OpenClash/luci-app-openclash package/luci-app-openclash
 # 编译 po2lmo (如果有po2lmo可跳过)
-#pushd package/custom/luci-app-openclash/tools/po2lmo
-#make && sudo make install
-#popd
-        
+pushd package/luci-app-openclash/tools/po2lmo
+make && sudo make install
+popd   
 
 # Modify default IP
 sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
 # Modify default theme
 sed -i 's/luci-theme-bootstrap/luci-theme-argon/g' feeds/luci/collections/luci/Makefile
+
+# samba解除root限制
+sed -i 's/invalid users = root/#&/g' feeds/packages/net/samba4/files/smb.conf.template
 
 # Modify hostname
 #sed -i 's/OpenWrt/P3TERX-Router/g' package/base-files/files/bin/config_generate
