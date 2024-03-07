@@ -52,9 +52,9 @@ function merge_package() {
         merge_package master https://github.com/messense/aliyundrive-webdav package/openwrt-packages aliyundrive-webdav luci-app-aliyundrive-webdav 
 #        merge_package master https://github.com/vernesong/OpenClash package/openwrt-packages luci-app-openclash
 # 编译 po2lmo (如果有po2lmo可跳过)
-pushd package/custom/luci-app-openclash/tools/po2lmo
-make && sudo make install
-popd
+#pushd package/custom/luci-app-openclash/tools/po2lmo
+#make && sudo make install
+#popd
         
 
 # Modify default IP
